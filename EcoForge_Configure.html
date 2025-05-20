@@ -1,0 +1,282 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>EcoForge Configuration</title>
+    <style>
+        /* Add to existing CSS */
+        .config-section {
+            background: rgba(255,255,255,0.9);
+            padding: 20px;
+            border-radius: 10px;
+            margin: 20px 0;
+            color: #333;
+        }
+
+        .config-form {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 15px;
+        }
+
+        .config-group {
+            margin-bottom: 15px;
+        }
+
+        .config-group label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+        }
+
+        .config-group input {
+            width: 100%;
+            padding: 8px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+        }
+
+        .save-button {
+            background: #27ae60;
+            color: white;
+            padding: 12px 30px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 1.1em;
+        }
+    </style>
+</head>
+<body>
+    <div class="cover-page">
+        <div class="cover-content">
+            <h1>EcoForge Configuration Center</h1>
+            <div class="assumptions-table">
+    <table>
+        <tr>
+            <th>Parameter</th>
+            <th>Unit</th>
+            <th>Value</th>
+            <th>Notes</th>
+            <th>Source</th>
+        </tr>
+        <tr>
+            <td>Energy consumed by the office building</td>
+            <td>MWh/year</td>
+            <td id="displayOfficeEnergy">600</td>
+            <td></td>
+            <td></td>
+        </tr>
+        <tr>
+            <td>Of which cooling system</td>
+            <td>%</td>
+            <td>20%</td>
+            <td></td>
+            <td></td>
+        </tr>
+        <tr>
+            <td>Energy consumed by the factory</td>
+            <td>MWh/year</td>
+            <td>6,000,000</td>
+            <td></td>
+            <td></td>
+        </tr>
+        <tr>
+            <td>Fuel cost per lt</td>
+            <td>EUR/litre</td>
+            <td>1.80</td>
+            <td></td>
+            <td></td>
+        </tr>
+        <tr>
+            <td>Volatility of electricity cost</td>
+            <td>+/- %</td>
+            <td>25%</td>
+            <td>For turn 2+</td>
+            <td></td>
+        </tr>
+        <tr>
+            <td>Energy consumed for heating</td>
+            <td>%</td>
+            <td>50%</td>
+            <td>TBD</td>
+            <td></td>
+        </tr>
+        <tr>
+            <td>Low carbon energy proportion</td>
+            <td>%</td>
+            <td>30%</td>
+            <td>Natural gas 15%; Electricity 15%</td>
+            <td></td>
+        </tr>
+        <tr>
+            <td>Carbon intensity (low carbon)</td>
+            <td>gCO₂/MWh</td>
+            <td>57,000</td>
+            <td></td>
+            <td></td>
+        </tr>
+        <tr>
+            <td>Carbon intensity (high carbon)</td>
+            <td>gCO₂/MWh</td>
+            <td>370,000</td>
+            <td></td>
+            <td><a href="https://thundersaidenergy.com/downloads/coal-grades-what-co2-intensity" target="_blank">Source</a></td>
+        </tr>
+        <tr>
+            <td>Total CO₂ emissions</td>
+            <td>tCO₂/year</td>
+            <td>2,000,000</td>
+            <td>Ignoring HQ</td>
+            <td></td>
+        </tr>
+        <tr>
+            <td>Electricity Tariff (Turn 1)</td>
+            <td>EUR/MWh</td>
+            <td>100.6</td>
+            <td>Nov 2024 wholesale</td>
+            <td></td>
+        </tr>
+        <tr>
+            <td>Emission from Solar</td>
+            <td>CO₂-eq/MWh</td>
+            <td>130.5</td>
+            <td></td>
+            <td><a href="https://data.jrc.ec.europa.eu/dataset/919df040-0252-4e4e-ad82-c054896e1641" target="_blank">Source</a></td>
+        </tr>
+    </table>
+</div>
+            <!-- Editable Assumptions -->
+            <div class="config-section">
+                <h2>Edit Assumptions</h2>
+                <div class="assumptions-table">
+                    <table>
+                        <!-- Table structure same as original but with inputs -->
+                        <tr>
+                            <th>Parameter</th>
+                            <th>Unit</th>
+                            <th>Value</th>
+                            <th>Notes</th>
+                            <th>Source</th>
+                        </tr>
+                        <tr>
+                            <td>Energy consumed by the office building</td>
+                            <td>MWh/year</td>
+                            <td><input type="number" id="officeEnergy" value="600"></td>
+                            <td><input type="text" value=""></td>
+                            <td><input type="text" value=""></td>
+                        </tr>
+                        <!-- Repeat for other parameters -->
+                    </table>
+                </div>
+            </div>
+
+            <!-- Initiative Configuration -->
+            <div class="config-section">
+                <h2>Configure Initiatives</h2>
+                <div class="config-form" id="initiativeConfig">
+                    <!-- Green Energy Purchase Configuration -->
+                    <div class="config-group">
+                        <h3>Green Energy Purchase</h3>
+                        <label>Min Cost (€M)</label>
+                        <input type="number" id="greenMinCost" value="10">
+                        <label>Max Cost (€M)</label>
+                        <input type="number" id="greenMaxCost" value="20">
+                        <!-- Similar for duration and reduction -->
+                    </div>
+                    
+                    <!-- Solar PV Configuration -->
+                    <div class="config-group">
+                        <h3>Solar PV Installation</h3>
+                        <label>Min Cost (€M)</label>
+                        <input type="number" id="solarMinCost" value="20">
+                        <label>Max Cost (€M)</label>
+                        <input type="number" id="solarMaxCost" value="40">
+                        <!-- Similar for duration and reduction -->
+                    </div>
+                    
+                    <!-- EV Fleet Configuration -->
+                    <div class="config-group">
+                        <h3>EV Fleet Transition</h3>
+                        <label>Min Cost (€M)</label>
+                        <input type="number" id="evMinCost" value="15">
+                        <label>Max Cost (€M)</label>
+                        <input type="number" id="evMaxCost" value="35">
+                        <!-- Similar for duration and reduction -->
+                    </div>
+                </div>
+            </div>
+
+            <button class="save-button" onclick="saveConfig()">Save Configuration</button>
+            <a href="EcoForgev8.html" class="start-button">Back to Game</a>
+        </div>
+    </div>
+
+    <script>
+        // Load saved configuration
+        function loadConfig() {
+            const savedConfig = JSON.parse(localStorage.getItem('ecoConfig'));
+            if (savedConfig) {
+                // Load assumptions
+                const officeEnergy = savedConfig.assumptions.officeEnergy;
+				document.getElementById('officeEnergy').value = officeEnergy;
+				document.getElementById('displayOfficeEnergy').textContent = officeEnergy;
+                
+                // Load initiative ranges
+                document.getElementById('greenMinCost').value = savedConfig.initiatives.greenEnergy.minCost;
+                document.getElementById('greenMaxCost').value = savedConfig.initiatives.greenEnergy.maxCost;
+                
+                // Load other fields similarly
+            }
+        }
+
+        // Save configuration
+        function saveConfig() {
+		const officeEnergy = document.getElementById('officeEnergy').value;
+           
+		   const config = {
+                assumptions: {
+                    officeEnergy: officeEnergy,
+                    // Collect other assumption values
+                },
+                initiatives: {
+                    greenEnergy: {
+                        minCost: document.getElementById('greenMinCost').value,
+                        maxCost: document.getElementById('greenMaxCost').value,
+                        // Collect other parameters
+                    },
+                    solarPV: {
+                        minCost: document.getElementById('solarMinCost').value,
+                        maxCost: document.getElementById('solarMaxCost').value,
+                        // Collect other parameters
+                    },
+                    evFleet: {
+                        minCost: document.getElementById('evMinCost').value,
+                        maxCost: document.getElementById('evMaxCost').value,
+                        // Collect other parameters
+                    }
+                }
+            };
+            
+            // Save to localStorage
+			localStorage.setItem('ecoConfig', JSON.stringify(config));
+
+			// Update displayed assumption table
+			document.getElementById('displayOfficeEnergy').textContent = officeEnergy;
+
+			// Alert confirmation
+			alert('Configuration saved successfully!');
+        }
+
+        // Load config when page loads
+        window.onload = loadConfig;
+		assumptionKeys.forEach(({ key }) => {
+		document.getElementById(key).addEventListener('input', (e) => {
+        document.getElementById('display' + capitalize(key)).textContent = e.target.value;
+    });
+});
+    </script>
+	
+</div>
+</body>
+</html>
